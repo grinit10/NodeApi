@@ -9,8 +9,13 @@ ordersrouter.get('/', (req,resp,next) => {
 } )
 
 ordersrouter.post('/', (req,resp,next) => {
+    const order = {
+        productId : req.body.productId,
+        quantity: req.body.quqntity
+    }
     resp.status(200).json({
-        'message': 'Handling POST request'
+        'message': 'Handling POST request',
+        placedOrder: order
     })
 } )
 

@@ -9,8 +9,13 @@ productsrouter.get('/', (req,resp,next) => {
 } )
 
 productsrouter.post('/', (req,resp,next) => {
+    const product = {
+        name: req.body.name,
+        price: req.body.price
+    }
     resp.status(201).json({
-        'message': 'Handling POST request'
+        message: 'Handling POST request',
+        createdProduct: product
     })
 } )
 
