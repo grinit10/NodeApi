@@ -4,9 +4,25 @@ const productsrouter = express.Router();
 const mongoose = require('mongoose')
 
 productsrouter.get('/', (req,resp,next) => {
-    Product.find().exec()
+    Product.find()
+    .select('name price _id')
+    .exec()
     .then(result => {
-        resp.status(200).json(result)
+        const respbody = {
+            count: result.length,
+            products: result.map(prd => {
+                return {
+                    name: prd.name,
+                    price: prd.price,
+                    _id: prd._id,
+                    request: {
+                        type: 'GET',
+                        url: 'http://localhost:3030/products/' + prd._id
+                    }
+                }
+            })
+        }
+        resp.status(200).json(respbody)
     })
     .catch(err => {
         resp.status(500).json(err);
@@ -25,7 +41,13 @@ productsrouter.post('/', (req,resp,next) => {
       console.log(result);
       resp.status(201).json({
         message: "Handling POST requests to /products",
-        createdProduct: result
+        createdProduct: {
+            _id: result._id,
+            request: {
+                type: 'GET',
+                url: 'http://localhost:3030/products/' + result._id
+            }
+        }
       });
     })
     .catch(err => {
