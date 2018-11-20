@@ -22,7 +22,7 @@ mongoose.connect(
         console.log(err);
       }
       else
-        console.log('connected!!!');
+        console.log('connected to atlas!!!');
     }
   );
 
